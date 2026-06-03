@@ -3,8 +3,8 @@
 
     const App = {
         config: {
-            grammarPath: '../grammar/',
-            rulesPath: '../rules/',
+            grammarPath: './grammar/',
+            rulesPath: './rules/',
             storageKey: 'b2_english_progress',
             lessonsCache: new Map()
         },
