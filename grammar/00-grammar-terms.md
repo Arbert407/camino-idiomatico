@@ -862,3 +862,184 @@ This guide covers all essential grammar terms for IT professionals:
 - Common terminology (gerund, infinitive, participle)
 
 Practice using these in your daily work communications!
+---
+
+## Test (30 questions)
+
+!!!START_TEST!!!
+
+### Q1 (Multiple Choice)
+What is the subject in: "The server crashes."
+- The server
+- crashes
+- Server crashes
+
+### Q2 (Multiple Choice)
+What is the verb in: "She writes code."
+- writes
+- code
+- She
+
+### Q3 (Multiple Choice)
+What does a noun name?
+- Actions
+- Persons, places, things
+- Descriptions
+
+### Q4 (Fill in the Blank)
+The person who performs the action is the ___. (subject)
+
+### Q5 (Fill in the Blank)
+A word that describes a noun is an ___. (adjective)
+
+### Q6 (Fill in the Blank)
+"working" and "worked" are verb ___. (participle)
+
+### Q7 (True or False)
+In "I know the answer.", "know" is an action verb.
+- True
+- False
+
+### Q8 (True or False)
+A gerund is a verb that functions as a noun.
+- True
+- False
+
+### Q9 (True or False)
+"The" is a preposition.
+- True
+- False
+
+### Q10 (Error Find)
+Find the error: "She code in Python."
+- No error
+- "code" should be "codes"
+
+### Q11 (Error Find)
+Find the error: "He is know the answer."
+- No error
+- "know" should be "knowing"
+
+### Q12 (Error Find)
+Find the error: "Coding is fun."
+- No error
+- "Coding" is wrong
+
+### Q13 (Complete Table)
+Complete the verb forms for "work":
+
+| Form | Word |
+|------|------|
+| Base | work |
+| Past | ___ |
+| Present (-s) | ___ |
+
+### Q14 (Complete Table)
+Complete the determiners:
+
+| Type | Example |
+|------|--------|
+| Definite | the |
+| Indefinite | a, an, ___ |
+
+### Q15 (Complete Table)
+Match the term:
+
+| Term | Function |
+|------|----------|
+| Pronoun | Replaces ___ |
+| Article | Introduces ___ |
+
+### Q16 (Transform)
+Change to past: "She codes in Python."
+
+### Q17 (Transform)
+Change to question: "He works late."
+
+### Q18 (Transform)
+Change to negative: "They know the answer."
+
+### Q19 (Order)
+Arrange: verb / is / a / word / that / action / an
+
+### Q20 (Order)
+Arrange: pronoun / replaces / a / noun
+
+### Q21 (Order)
+Arrange: an / describes / adjective / noun / a
+
+### Q22 (Which Rule)
+What does an adjective do?
+- Describes a noun
+- Performs the action
+- Replaces a noun
+
+### Q23 (Which Rule)
+What is a phrasal verb?
+- Verb + preposition
+- Verb + particle
+- Noun + verb
+
+### Q24 (Which Rule)
+What is the infinitive form?
+- Base verb
+- to + verb
+- verb + -ing
+
+### Q25 (Open Cloze)
+I ___ to learn Python. (want)
+
+### Q26 (Open Cloze)
+Coding ___ fun. (is)
+
+### Q27 (Open Cloze)
+She ___ a developer. (is)
+
+### Q28 (Match)
+Match the term:
+- Subject → ___
+- Verb → ___
+
+### Q29 (Match)
+Match:
+- Noun → ___
+- Adjective → ___
+
+### Q30 (Match)
+Match:
+- Gerund → verb as ___
+- Infinitive → to + ___
+
+!!!END_TEST!!!
+
+// ANSWERS (hidden until test completed)
+// Q1: The server
+// Q2: writes
+// Q3: Persons, places, things
+// Q4: subject
+// Q5: adjective
+// Q6: participle/participles
+// Q7: False (know is stative)
+// Q8: True
+// Q9: False (the is article)
+// Q10: "code" should be "codes"
+// Q11: "know" should be "knowing"
+// Q12: No error (gerund is correct)
+// Q13: worked, works
+// Q14: an
+// Q15: noun, noun
+// Q16: She coded in Python.
+// Q17: Does he work late?
+// Q18: They don't know the answer.
+// Q19: Verb is a word that action an
+// Q20: pronoun replaces a noun
+// Q21: adjective describes a noun
+// Q22: Describes a noun
+// Q23: Verb + particle
+// Q24: to + verb
+// Q25: want
+// Q26: is
+// Q27: is
+// Q28: performs, performs
+// Q29: thing, describes
+// Q30: noun, verb

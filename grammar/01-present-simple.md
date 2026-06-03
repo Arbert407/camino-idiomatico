@@ -193,3 +193,186 @@ The **Present Continuous** (I am doing) → Actions happening right now.
 
 > "I **am coding** right now."
 > "The server **is running** slow."
+---
+
+## Test (30 questions)
+
+!!!START_TEST!!!
+
+### Q1 (Multiple Choice)
+She ___ as a developer.
+- work
+- works
+- working
+
+### Q2 (Multiple Choice)
+The server ___ often. (crash)
+- crash
+- crashes
+- crashing
+
+### Q3 (Multiple Choice)
+He ___ Python every day.
+- code
+- codes
+- coding
+
+### Q4 (Fill in the Blank)
+She ___ (work) in IT. (+s form)
+
+### Q5 (Fill in the Blank)
+The app ___ (crash) every day.
+
+### Q6 (Fill in the Blank)
+He ___ (study) programming.
+
+### Q7 (True or False)
+"The server crash often." is correct.
+- True
+- False
+
+### Q8 (True or False)
+"She works in a startup." is correct.
+- True
+- False
+
+### Q9 (True or False)
+"I don't knows the answer." is correct.
+- True
+- False
+
+### Q10 (Error Find)
+Find the error: "She work in IT."
+- No error
+- "work" should be "works"
+
+### Q11 (Error Find)
+Find the error: "He don't code."
+- No error
+- "don't" should be "doesn't"
+
+### Q12 (Error Find)
+Find the error: "They goes home."
+- No error
+- "goes" should be "go"
+
+### Q13 (Complete Table)
+Complete the table:
+
+| Subject | Verb "work" |
+|---------|------------|
+| I       | ___        |
+| He      | ___       |
+| They   | ___       |
+
+### Q14 (Complete Table)
+Complete the table:
+
+| Subject | Verb "watch" |
+|---------|------------|
+| He     | ___        |
+| It     | ___       |
+| They   | ___       |
+
+### Q15 (Complete Table)
+Complete the table:
+
+| Subject | Negative "do" |
+|---------|---------------|
+| I      | don't         |
+| He     | ___          |
+| They   | ___          |
+
+### Q16 (Transform)
+Change to negative: "She works late."
+
+### Q17 (Transform)
+Change to question: "He codes in Python."
+
+### Q18 (Transform)
+Change to negative: "They study IT."
+
+### Q19 (Order)
+Arrange: works / in / a / startup / She
+
+### Q20 (Order)
+Arrange: doesn't / know / He / the / answer
+
+### Q21 (Order)
+Arrange: do / work / Where / you
+
+### Q22 (Which Rule)
+When do we add -s or -es to verbs?
+- With I, you, we, they
+- With he, she, it
+- With all subjects
+
+### Q23 (Which Rule)
+What happens with verbs ending in consonant + y?
+- Add -s
+- Change y to i + -es
+- Add -es
+
+### Q24 (Which Rule)
+What is the negative form with "he/she/it"?
+- don't + verb
+- doesn't + verb
+- doesn't + verb + -s
+
+### Q25 (Open Cloze)
+He ___ in a tech company. (work)
+
+### Q26 (Open Cloze)
+The server ___ every hour. (crash)
+
+### Q27 (Open Cloze)
+She ___ Java at university. (study)
+
+### Q28 (Match)
+Match the subject with the correct verb ending for "work":
+- He → ___
+- They → ___
+
+### Q29 (Match)
+Match with "go":
+- He → ___
+- They → ___
+
+### Q30 (Match)
+Match with "watch":
+- He → ___
+- They → ___
+
+!!!END_TEST!!!
+
+// ANSWERS (hidden until test completed)
+// Q1: works
+// Q2: crashes
+// Q3: codes
+// Q4: works
+// Q5: crashes
+// Q6: studies
+// Q7: False (should be "crashes")
+// Q8: True
+// Q9: False (should be "doesn't know")
+// Q10: "work" should be "works"
+// Q11: "don't" should be "doesn't"
+// Q12: "goes" should be "go"
+// Q13: work, works, work
+// Q14: watches, watches, watch
+// Q15: doesn't, don't
+// Q16: She doesn't work late.
+// Q17: Does he code in Python?
+// Q18: They don't study IT.
+// Q19: She works in a startup.
+// Q20: He doesn't know the answer.
+// Q21: Where do you work?
+// Q22: With he, she, it
+// Q23: Change y to i + -es
+// Q24: doesn't + verb
+// Q25: works
+// Q26: crashes
+// Q27: studies
+// Q28: -s, (no -s)
+// Q29: -es, (no -s)
+// Q30: -es, (no -es)
