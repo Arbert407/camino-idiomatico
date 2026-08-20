@@ -786,6 +786,7 @@ body {
 
 .lesson-body h2 {
     position: relative;
+    z-index: 1;
     font-size: 1.4rem;
     color: var(--text-primary);
     font-weight: 700;
@@ -809,7 +810,7 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-/* Decorative shape — soft circle with a thin concentric ring (medallion) */
+/* Decorative shape — glassmorphism circle, same color family as the card */
 .lesson-body h2::before {
     content: '';
     position: absolute;
@@ -818,11 +819,12 @@ body {
     width: 170px;
     height: 170px;
     border-radius: 50%;
-    background: rgba(59, 130, 246, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(59, 130, 246, 0.5),
-        inset 0 0 0 32px rgba(59, 130, 246, 0.18);
+    background: rgba(59, 130, 246, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     pointer-events: none;
+    z-index: -1;
     animation: float 8s ease-in-out infinite;
 }
 
@@ -857,10 +859,8 @@ body {
     border-color: rgba(59, 130, 246, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+1)::before {
-    background: rgba(59, 130, 246, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(59, 130, 246, 0.5),
-        inset 0 0 0 32px rgba(59, 130, 246, 0.18);
+    background: rgba(59, 130, 246, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+1)::after { background-color: var(--primary); }
 
@@ -869,10 +869,8 @@ body {
     border-color: rgba(168, 85, 247, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+2)::before {
-    background: rgba(168, 85, 247, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(168, 85, 247, 0.5),
-        inset 0 0 0 32px rgba(168, 85, 247, 0.18);
+    background: rgba(168, 85, 247, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+2)::after { background-color: var(--violet); }
 
@@ -881,10 +879,8 @@ body {
     border-color: rgba(20, 184, 166, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+3)::before {
-    background: rgba(20, 184, 166, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(20, 184, 166, 0.5),
-        inset 0 0 0 32px rgba(20, 184, 166, 0.18);
+    background: rgba(20, 184, 166, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+3)::after { background-color: var(--teal); }
 
@@ -893,10 +889,8 @@ body {
     border-color: rgba(245, 158, 11, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+4)::before {
-    background: rgba(245, 158, 11, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(245, 158, 11, 0.5),
-        inset 0 0 0 32px rgba(245, 158, 11, 0.18);
+    background: rgba(245, 158, 11, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+4)::after { background-color: var(--warm); }
 
@@ -905,10 +899,8 @@ body {
     border-color: rgba(236, 72, 153, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+5)::before {
-    background: rgba(236, 72, 153, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(236, 72, 153, 0.5),
-        inset 0 0 0 32px rgba(236, 72, 153, 0.18);
+    background: rgba(236, 72, 153, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+5)::after { background-color: var(--pink); }
 
@@ -917,10 +909,8 @@ body {
     border-color: rgba(244, 63, 94, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+6)::before {
-    background: rgba(244, 63, 94, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(244, 63, 94, 0.5),
-        inset 0 0 0 32px rgba(244, 63, 94, 0.18);
+    background: rgba(244, 63, 94, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+6)::after { background-color: var(--rose); }
 
@@ -929,10 +919,8 @@ body {
     border-color: rgba(132, 204, 22, 0.8);
 }
 .lesson-body h2:nth-of-type(7n+7)::before {
-    background: rgba(132, 204, 22, 0.55);
-    box-shadow:
-        inset 0 0 0 1px rgba(132, 204, 22, 0.5),
-        inset 0 0 0 32px rgba(132, 204, 22, 0.18);
+    background: rgba(132, 204, 22, 0.45);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 .lesson-body h2:nth-of-type(7n+7)::after { background-color: #84cc16; }
 
