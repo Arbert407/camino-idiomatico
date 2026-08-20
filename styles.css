@@ -44,6 +44,104 @@ html {
     scroll-behavior: smooth;
 }
 
+/* ============================================================
+   Animations & motion
+   ============================================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes hueShift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(15deg); }
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes pulseRing {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 body {
     font-family: var(--font-sans);
     background: var(--bg-page);
@@ -54,6 +152,12 @@ body {
 
 .view {
     min-height: 100vh;
+}
+
+.landing,
+.category-page,
+.lesson-page {
+    animation: fadeIn 0.35s ease-out;
 }
 
 /* ============================================================
@@ -117,13 +221,14 @@ body {
     text-decoration: none;
     border-radius: var(--radius);
     font-size: 0.9rem;
-    transition: var(--transition);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid transparent;
 }
 
 .sidebar-link:hover {
     background: var(--bg-surface-2);
     color: var(--text-primary);
+    transform: translateX(2px);
 }
 
 .sidebar-link.active {
@@ -320,11 +425,12 @@ body {
     color: var(--text-primary);
     text-decoration: none;
     border-bottom: 1px solid var(--border-light);
-    transition: color var(--transition);
+    transition: color 0.2s ease, padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lesson-link:hover {
     color: var(--primary);
+    padding-left: 0.6rem;
 }
 
 .lesson-link-cat {
@@ -415,13 +521,19 @@ body {
     border-radius: var(--radius);
     padding: 0.4rem 0.9rem;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bar-btn:hover {
     background: var(--bg-surface);
     color: var(--text-primary);
     border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+
+.bar-btn:active {
+    transform: translateY(0);
 }
 
 /* ============================================================
@@ -440,6 +552,9 @@ body {
         linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border: 1px solid var(--border);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .lesson-hero::before {
@@ -452,30 +567,58 @@ body {
     pointer-events: none;
 }
 
-.lesson-hero-eyebrow {
+.lesson-hero-trail {
     position: relative;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.4rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--primary);
-    padding: 0.3rem 0.7rem;
-    background: rgba(59, 130, 246, 0.12);
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 0.85rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 999px;
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    margin-bottom: 0.85rem;
+    width: fit-content;
+    backdrop-filter: blur(6px);
+    animation: fadeInDown 0.5s ease-out 0.05s backwards;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.lesson-hero-eyebrow::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 8px var(--primary);
+.lesson-hero-trail:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.trail-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color var(--transition);
+}
+
+.trail-link:hover {
+    color: var(--text-inverse);
+}
+
+.trail-sep {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.trail-group {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(59, 130, 246, 0.2));
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(168, 85, 247, 0.35);
 }
 
 .lesson-hero-title {
@@ -486,6 +629,7 @@ body {
     letter-spacing: -0.02em;
     line-height: 1.2;
     margin-bottom: 1rem;
+    animation: fadeInUp 0.5s ease-out 0.2s backwards;
 }
 
 .lesson-hero-sub {
@@ -494,6 +638,7 @@ body {
     color: var(--text-secondary);
     max-width: 640px;
     line-height: 1.7;
+    animation: fadeInUp 0.5s ease-out 0.35s backwards;
 }
 
 /* Reading progress bar */
@@ -641,27 +786,44 @@ body {
 
 .lesson-body h2 {
     position: relative;
-    font-size: 1.45rem;
-    color: #ffffff;
+    font-size: 1.4rem;
+    color: var(--text-primary);
     font-weight: 700;
     margin-top: 5rem;
-    padding: 1.75rem 1.75rem 1.75rem 5.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 1.65rem 1.75rem 1.65rem 5.5rem;
+    background: rgba(59, 130, 246, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: var(--radius-lg);
     letter-spacing: -0.01em;
     overflow: hidden;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    box-shadow:
+        0 10px 32px rgba(15, 23, 42, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
+.lesson-body h2:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 14px 36px rgba(15, 23, 42, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Decorative shape — soft circle with a thin concentric ring (medallion) */
 .lesson-body h2::before {
     content: '';
     position: absolute;
-    right: -40px;
-    top: -40px;
-    width: 140px;
-    height: 140px;
+    right: -25px;
+    top: -25px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(59, 130, 246, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(59, 130, 246, 0.5),
+        inset 0 0 0 22px rgba(59, 130, 246, 0.18);
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
 }
 
 .lesson-body h2::after {
@@ -670,23 +832,109 @@ body {
     left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--primary);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E");
-    background-size: 28px;
+    background-size: 26px;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(255, 255, 255, 0.4);
+    animation: pulseRing 3s ease-in-out infinite;
 }
 
-/* Rotate colors per h2 */
-.lesson-body h2:nth-of-type(5n+1) { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); }
-.lesson-body h2:nth-of-type(5n+2) { background: linear-gradient(135deg, #a855f7, #7e22ce); box-shadow: 0 4px 14px rgba(168, 85, 247, 0.3); }
-.lesson-body h2:nth-of-type(5n+3) { background: linear-gradient(135deg, #14b8a6, #0d9488); box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3); }
-.lesson-body h2:nth-of-type(5n+4) { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3); }
-.lesson-body h2:nth-of-type(5n+5) { background: linear-gradient(135deg, #ec4899, #be185d); box-shadow: 0 4px 14px rgba(236, 72, 153, 0.3); }
+/* Shine sweep on hover */
+.lesson-body h2 > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Color rotation per h2 — solid colors, no gradient */
+.lesson-body h2:nth-of-type(7n+1) {
+    background: rgba(59, 130, 246, 0.6);
+    border-color: rgba(59, 130, 246, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+1)::before {
+    background: rgba(59, 130, 246, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(59, 130, 246, 0.5),
+        inset 0 0 0 22px rgba(59, 130, 246, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+1)::after { background-color: var(--primary); }
+
+.lesson-body h2:nth-of-type(7n+2) {
+    background: rgba(168, 85, 247, 0.6);
+    border-color: rgba(168, 85, 247, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+2)::before {
+    background: rgba(168, 85, 247, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(168, 85, 247, 0.5),
+        inset 0 0 0 22px rgba(168, 85, 247, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+2)::after { background-color: var(--violet); }
+
+.lesson-body h2:nth-of-type(7n+3) {
+    background: rgba(20, 184, 166, 0.6);
+    border-color: rgba(20, 184, 166, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+3)::before {
+    background: rgba(20, 184, 166, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(20, 184, 166, 0.5),
+        inset 0 0 0 22px rgba(20, 184, 166, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+3)::after { background-color: var(--teal); }
+
+.lesson-body h2:nth-of-type(7n+4) {
+    background: rgba(245, 158, 11, 0.6);
+    border-color: rgba(245, 158, 11, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+4)::before {
+    background: rgba(245, 158, 11, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(245, 158, 11, 0.5),
+        inset 0 0 0 22px rgba(245, 158, 11, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+4)::after { background-color: var(--warm); }
+
+.lesson-body h2:nth-of-type(7n+5) {
+    background: rgba(236, 72, 153, 0.6);
+    border-color: rgba(236, 72, 153, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+5)::before {
+    background: rgba(236, 72, 153, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(236, 72, 153, 0.5),
+        inset 0 0 0 22px rgba(236, 72, 153, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+5)::after { background-color: var(--pink); }
+
+.lesson-body h2:nth-of-type(7n+6) {
+    background: rgba(244, 63, 94, 0.6);
+    border-color: rgba(244, 63, 94, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+6)::before {
+    background: rgba(244, 63, 94, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(244, 63, 94, 0.5),
+        inset 0 0 0 22px rgba(244, 63, 94, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+6)::after { background-color: var(--rose); }
+
+.lesson-body h2:nth-of-type(7n+7) {
+    background: rgba(132, 204, 22, 0.6);
+    border-color: rgba(132, 204, 22, 0.8);
+}
+.lesson-body h2:nth-of-type(7n+7)::before {
+    background: rgba(132, 204, 22, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(132, 204, 22, 0.5),
+        inset 0 0 0 22px rgba(132, 204, 22, 0.18);
+}
+.lesson-body h2:nth-of-type(7n+7)::after { background-color: #84cc16; }
 
 .lesson-body h3 {
     display: inline-flex;
@@ -757,14 +1005,22 @@ body {
 .lesson-body ol li {
     position: relative;
     padding: 1.5rem 1.5rem 1.75rem 4.5rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.10), rgba(168, 85, 247, 0.06));
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: rgba(59, 130, 246, 0.32);
+    border: 1px solid rgba(59, 130, 246, 0.55);
     border-radius: var(--radius-lg);
     color: var(--text-primary);
     margin-bottom: 0.5rem;
     counter-increment: lcard;
     overflow: hidden;
     line-height: 1.6;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.lesson-body ul li:hover,
+.lesson-body ol li:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.25);
 }
 
 .lesson-body ul li::before,
@@ -784,8 +1040,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.45);
     letter-spacing: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lesson-body ul li:hover::before,
+.lesson-body ol li:hover::before {
+    transform: scale(1.1) rotate(8deg);
 }
 
 .lesson-body ul li::after,
@@ -823,14 +1085,20 @@ body {
 .lesson-body blockquote p {
     margin: 0;
     padding: 1.25rem 1.4rem 1.25rem 3.75rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.04));
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(59, 130, 246, 0.32);
+    border: 1px solid rgba(59, 130, 246, 0.55);
     border-left: 4px solid var(--primary);
     border-radius: var(--radius-lg);
     color: var(--text-primary);
     position: relative;
     font-size: 1rem;
     line-height: 1.65;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-body blockquote p:hover {
+    transform: translateX(6px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
 }
 
 .lesson-body blockquote p::before {
@@ -1004,6 +1272,231 @@ body {
     border-top: 1px solid var(--border);
 }
 
+/* ============================================================
+   Practice Exercises (interactive)
+   ============================================================ */
+
+.practice-section {
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(59, 130, 246, 0.05));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: var(--radius-lg);
+}
+
+.practice-section > h2 {
+    color: var(--text-primary) !important;
+    background: linear-gradient(135deg, var(--violet), var(--primary)) !important;
+    padding: 1rem 1.25rem !important;
+    margin: 0 0 1.5rem 0 !important;
+    border-radius: var(--radius) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3) !important;
+}
+
+.practice-section > h2::before,
+.practice-section > h2::after {
+    display: none !important;
+}
+
+.practice-section ol,
+.practice-section ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0 0 1rem;
+    counter-reset: prac;
+}
+
+.practice-item {
+    position: relative;
+    display: block;
+    padding: 1rem 1.25rem 1rem 3.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.7;
+    counter-increment: prac;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+}
+
+.practice-item::before {
+    content: counter(prac);
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--violet));
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.practice-item::after {
+    display: none;
+}
+
+.practice-item.practice-correct {
+    border-color: var(--teal);
+    border-left-color: var(--teal);
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.18), rgba(20, 184, 166, 0.04));
+}
+
+.practice-item.practice-incorrect {
+    border-color: var(--rose);
+    border-left-color: var(--rose);
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(244, 63, 94, 0.04));
+}
+
+.practice-item.practice-empty {
+    opacity: 0.7;
+}
+
+.practice-input {
+    display: inline-block;
+    min-width: 130px;
+    padding: 0.35rem 0.65rem;
+    margin: 0 0.25rem;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-bottom: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.practice-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--bg-surface);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.practice-input:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.practice-item.practice-correct .practice-input {
+    border-bottom-color: var(--teal);
+    background: rgba(20, 184, 166, 0.1);
+}
+
+.practice-item.practice-incorrect .practice-input {
+    border-bottom-color: var(--rose);
+    background: rgba(244, 63, 94, 0.1);
+}
+
+.practice-feedback {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.practice-item.practice-correct .practice-feedback { color: var(--teal); }
+.practice-item.practice-incorrect .practice-feedback { color: var(--rose); }
+.practice-item.practice-empty .practice-feedback { color: var(--text-muted); }
+
+.practice-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed rgba(168, 85, 247, 0.3);
+}
+
+.practice-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.practice-evaluate,
+.practice-reset {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.practice-evaluate {
+    background: linear-gradient(135deg, var(--primary), var(--violet));
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.practice-evaluate:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+.practice-evaluate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.practice-reset {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.practice-reset:hover {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border-color: var(--primary);
+}
+
+.practice-score {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.practice-score.show {
+    opacity: 1;
+}
+
+.practice-score.pass {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.22), rgba(20, 184, 166, 0.08));
+    color: var(--teal);
+    border: 1px solid rgba(20, 184, 166, 0.5);
+    box-shadow: 0 0 16px rgba(20, 184, 166, 0.18);
+}
+
+.practice-score.fail {
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.22), rgba(244, 63, 94, 0.08));
+    color: var(--rose);
+    border: 1px solid rgba(244, 63, 94, 0.5);
+    box-shadow: 0 0 16px rgba(244, 63, 94, 0.18);
+}
+
 .foot-nav {
     flex: 1;
     max-width: 45%;
@@ -1014,7 +1507,7 @@ body {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--bg-surface);
-    transition: var(--transition);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1023,6 +1516,8 @@ body {
 .foot-nav:hover {
     border-color: var(--primary);
     background: var(--bg-surface-2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(59, 130, 246, 0.15);
 }
 
 .foot-next {

@@ -376,7 +376,13 @@
                                 '</div>' +
                             '</nav>' +
                             '<header class="lesson-hero">' +
-                                '<span class="lesson-hero-eyebrow">' + escapeHtml(meta.label) + '</span>' +
+                                '<nav class="lesson-hero-trail">' +
+                                    '<a class="trail-link" href="#/' + category + '">' + escapeHtml(meta.label) + '</a>' +
+                                    (lesson.group
+                                        ? '<svg class="trail-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+                                          '<span class="trail-group">' + escapeHtml(lesson.group) + '</span>'
+                                        : '') +
+                                '</nav>' +
                                 '<h1 class="lesson-hero-title">' + escapeHtml(lesson.title) + '</h1>' +
                                 '<p class="lesson-hero-sub">' + escapeHtml(meta.blurb) + '</p>' +
                             '</header>' +
@@ -404,9 +410,13 @@
                     markdown = await res.text();
                     LESSONS_CACHE.set(path, markdown);
                 }
-                const cleaned = markdown.replace(/!!!START_TEST!!![\s\S]*$/, '');
+                const cleaned = markdown.replace(/## Test[\s\S]*$/, '');
                 const html = marked.parse(cleaned);
-                document.getElementById('lesson-body').innerHTML = enhanceHtml(html);
+                let processed = enhanceHtml(html);
+                processed = movePracticeExercisesToBottom(processed);
+                processed = makePracticeInteractive(processed);
+                document.getElementById('lesson-body').innerHTML = processed;
+                this.setupPracticeHandlers();
                 this.setupProgress();
             } catch (e) {
                 document.getElementById('lesson-body').innerHTML =
@@ -429,6 +439,16 @@
             window.addEventListener('scroll', update, { passive: true });
             window.addEventListener('resize', update);
             update();
+        },
+
+        setupPracticeHandlers() {
+            const sections = document.querySelectorAll('.practice-section');
+            sections.forEach((section) => {
+                const btn = section.querySelector('.practice-evaluate');
+                const reset = section.querySelector('.practice-reset');
+                if (btn) btn.addEventListener('click', () => evaluatePractice(section));
+                if (reset) reset.addEventListener('click', () => resetPractice(section));
+            });
         },
 
         renderFoot(lesson, category) {
@@ -502,6 +522,212 @@
             });
             return '<blockquote>' + inner + '</blockquote>';
         });
+    }
+
+    function movePracticeExercisesToBottom(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const children = Array.from(tmp.children);
+        if (children.length === 0) return html;
+
+        let startIdx = -1;
+        let endIdx = -1;
+        for (let i = 0; i < children.length; i++) {
+            const el = children[i];
+            if (el.tagName === 'H2' && /Practice Exercises/i.test(el.textContent)) {
+                startIdx = i;
+                for (let j = i + 1; j < children.length; j++) {
+                    if (children[j].tagName === 'H2') { endIdx = j; break; }
+                }
+                if (endIdx === -1) endIdx = children.length;
+                break;
+            }
+        }
+        if (startIdx === -1) return html;
+
+        const block = children.slice(startIdx, endIdx);
+        const rest = children.slice(0, startIdx).concat(children.slice(endIdx));
+
+        let testIdx = -1;
+        for (let i = 0; i < rest.length; i++) {
+            if (rest[i].tagName === 'H2' && /Test \(30 questions\)/i.test(rest[i].textContent)) {
+                testIdx = i;
+                break;
+            }
+        }
+
+        const finalChildren = testIdx >= 0
+            ? rest.slice(0, testIdx).concat(block, rest.slice(testIdx))
+            : rest.concat(block);
+
+        tmp.innerHTML = '';
+        finalChildren.forEach(function (c) { tmp.appendChild(c); });
+        return tmp.innerHTML;
+    }
+
+    function makePracticeInteractive(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        const headers = tmp.querySelectorAll('h2');
+        let practiceH2 = null;
+        for (const h of headers) {
+            if (/Practice Exercises/i.test(h.textContent)) { practiceH2 = h; break; }
+        }
+        if (!practiceH2) return html;
+
+        let endNode = practiceH2.nextElementSibling;
+        while (endNode && endNode.tagName !== 'H2') endNode = endNode.nextElementSibling;
+
+        const practiceScope = [];
+        let node = practiceH2.nextElementSibling;
+        while (node && node !== endNode) {
+            practiceScope.push(node);
+            node = node.nextElementSibling;
+        }
+
+        practiceScope.forEach(function (el) {
+            if (el.tagName !== 'OL' && el.tagName !== 'UL') return;
+            const items = el.querySelectorAll(':scope > li');
+            items.forEach(function (li) {
+                transformPracticeItem(li);
+            });
+        });
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'practice-section';
+
+        const parent = practiceH2.parentNode;
+        parent.insertBefore(wrapper, practiceH2);
+
+        wrapper.appendChild(practiceH2);
+        practiceScope.forEach(function (el) { wrapper.appendChild(el); });
+
+        const controls = document.createElement('div');
+        controls.className = 'practice-controls';
+
+        const score = document.createElement('div');
+        score.className = 'practice-score';
+        controls.appendChild(score);
+
+        const buttonsRow = document.createElement('div');
+        buttonsRow.className = 'practice-buttons';
+
+        const btn = document.createElement('button');
+        btn.className = 'practice-evaluate';
+        btn.type = 'button';
+        btn.textContent = 'Evaluate';
+        btn.addEventListener('click', function () { evaluatePractice(wrapper); });
+        buttonsRow.appendChild(btn);
+
+        const reset = document.createElement('button');
+        reset.className = 'practice-reset';
+        reset.type = 'button';
+        reset.textContent = 'Reset';
+        reset.addEventListener('click', function () { resetPractice(wrapper); });
+        buttonsRow.appendChild(reset);
+
+        controls.appendChild(buttonsRow);
+
+        wrapper.appendChild(controls);
+
+        return tmp.innerHTML;
+    }
+
+    function transformPracticeItem(li) {
+        const raw = li.innerHTML;
+        let answer = null;
+        let cleaned = raw;
+
+        const arrowMatch = cleaned.match(/(?:→|⇒|=|➔)\s*<strong>([^<]+)<\/strong>/i);
+        if (arrowMatch) {
+            answer = arrowMatch[1];
+            cleaned = cleaned.replace(/(?:→|⇒|=|➔)\s*<strong>[^<]+<\/strong>/i, '');
+        } else {
+            const trailingStrong = cleaned.match(/<strong>([^<]+)<\/strong>\s*$/i);
+            if (trailingStrong) {
+                answer = trailingStrong[1];
+                cleaned = cleaned.replace(/<strong>[^<]+<\/strong>\s*$/i, '');
+            }
+        }
+
+        if (!answer) return;
+
+        cleaned = cleaned.replace(/\s*\.?\s*$/, '').trim();
+
+        const inputHtml = '<input type="text" class="practice-input" placeholder="Your answer..." autocomplete="off" spellcheck="false" />';
+        cleaned = cleaned.replace(/_{2,}(?:\([^)]*\))?/g, inputHtml);
+
+        li.classList.add('practice-item');
+        li.dataset.answer = answer.toLowerCase();
+        li.dataset.display = answer;
+        li.innerHTML = cleaned + '<span class="practice-feedback"></span>';
+    }
+
+    const PRACTICE_PASS_THRESHOLD = 80;
+
+    function evaluatePractice(wrapper) {
+        const inputs = wrapper.querySelectorAll('.practice-input');
+        let correct = 0;
+        let total = 0;
+
+        inputs.forEach(function (input) {
+            total++;
+            const item = input.closest('.practice-item');
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = item.dataset.answer;
+            const feedback = item.querySelector('.practice-feedback');
+
+            input.disabled = true;
+            item.classList.remove('practice-correct', 'practice-incorrect', 'practice-empty');
+
+            if (userAnswer === '') {
+                item.classList.add('practice-empty');
+                feedback.textContent = '(no answer)';
+            } else if (userAnswer === correctAnswer) {
+                correct++;
+                item.classList.add('practice-correct');
+                feedback.textContent = '✓ ' + item.dataset.display;
+            } else {
+                item.classList.add('practice-incorrect');
+                feedback.textContent = '✗ Answer: ' + item.dataset.display;
+            }
+        });
+
+        const score = wrapper.querySelector('.practice-score');
+        if (score) {
+            const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+            const passed = pct >= PRACTICE_PASS_THRESHOLD;
+            let msg;
+            if (total === 0) {
+                msg = 'No answers to evaluate';
+            } else if (passed) {
+                msg = '✓ Passed ' + pct + '%  ·  ' + correct + ' / ' + total + ' correct  ·  threshold ' + PRACTICE_PASS_THRESHOLD + '%';
+            } else {
+                msg = '✗ Failed ' + pct + '%  ·  ' + correct + ' / ' + total + ' correct  ·  threshold ' + PRACTICE_PASS_THRESHOLD + '%';
+            }
+            score.textContent = msg;
+            score.className = 'practice-score show ' + (passed ? 'pass' : 'fail');
+        }
+
+        const btn = wrapper.querySelector('.practice-evaluate');
+        if (btn) btn.disabled = true;
+    }
+
+    function resetPractice(wrapper) {
+        wrapper.querySelectorAll('.practice-input').forEach(function (input) {
+            input.value = '';
+            input.disabled = false;
+        });
+        wrapper.querySelectorAll('.practice-item').forEach(function (item) {
+            item.classList.remove('practice-correct', 'practice-incorrect', 'practice-empty');
+            const fb = item.querySelector('.practice-feedback');
+            if (fb) fb.textContent = '';
+        });
+        const score = wrapper.querySelector('.practice-score');
+        if (score) { score.textContent = ''; score.className = 'practice-score'; }
+        const btn = wrapper.querySelector('.practice-evaluate');
+        if (btn) btn.disabled = false;
     }
 
     window.App = App;
