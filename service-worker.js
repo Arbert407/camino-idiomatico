@@ -1,4 +1,4 @@
-const CACHE_NAME = 'b2-english-v49';
+const CACHE_NAME = 'b2-english-v50';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
